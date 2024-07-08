@@ -1,6 +1,6 @@
 import numpy as np
 
-def image_split(input_image: np.ndarray):
+def image_split(input_image: np.ndarray) -> list[np.ndarray]:
     input_image = input_image
     final_images = []   # create an array to store all the final images
 

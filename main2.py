@@ -1,9 +1,10 @@
 from polar_transform import *
 from image_split import *
+import multiprocessing
 import time
 
 
-SCALE_FACTOR = 10
+SCALE_FACTOR = 30
 IMAGE_PATH = '/Users/yaellyshkow/Desacc/polar_transformation/PolarTransform/frame_1.1.raw'
 
 def main():
@@ -21,12 +22,15 @@ def main():
 
     start_time = time.time()
 
-    count = 0
-    for image in split_images:
-        polar_image = polar_transform(SCALE_FACTOR, image)
-        cv2.imwrite(f'transformed_images/polar_image_{count}.png', polar_image)    # Save the output image
-        count += 1
-        if count % 10 == 0: print(count)
+    processes = []
+    for count in range(0, 80, 10):
+        processes.append(multiprocessing.Process(target=polar_transform_processer, args=(count, SCALE_FACTOR, split_images[count: count+10])))
+
+    for process in processes:
+        process.start()
+    
+    for process in processes:
+        process.join()
         
     end_time = time.time()
 

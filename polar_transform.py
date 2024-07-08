@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-def polar_transform(scale_factor: int, image: np.ndarray):
+def polar_transform(scale_factor: int, image: np.ndarray) -> np.ndarray:
     # Load the original image
 
     original_image = cv2.resize(image, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_LINEAR)
@@ -22,7 +22,8 @@ def polar_transform(scale_factor: int, image: np.ndarray):
     max_radius = output_height // 1.075  # Using output_height as the maximum radius but reducing it a little to fit in the frame
 
     # Define the angular extent of the sector (covering the whole canvas)
-    sector_angle = np.pi / 2 # 90 degrees
+    # sector_angle = np.pi / 3 # 90 degrees
+    sector_angle = (np.pi * 7) / 24
 
     # Map each pixel from the original image to the sector scan shape
     for i in range(height):
@@ -43,4 +44,13 @@ def polar_transform(scale_factor: int, image: np.ndarray):
                 output_image[y, x] = original_image[i, j]        
 
     return output_image
-    
+
+
+def polar_transform_processer(count: int, scale_factor: int, images: list[np.ndarray]) -> None:
+
+    for image in images:
+        polar_image = polar_transform(scale_factor, image)
+        cv2.imwrite(f'transformed_images/polar_image_{count}.png', polar_image)    # Save the output image
+        count += 1
+
+    return None
