@@ -50,3 +50,4 @@ Yael Lyshkow
 
 Inspiration
 * [addisonElliott/polarTransform](https://github.com/addisonElliott/polarTransform/tree/master/polarTransform)
+* [open .raw image data using python](https://stackoverflow.com/questions/32439831/open-raw-image-data-using-python)
