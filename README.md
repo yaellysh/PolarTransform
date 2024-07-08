@@ -17,15 +17,22 @@ As well as this, the original image and therefore the individual frames were not
 
 ### Installing
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+Files required:
+   * main.py (original, without multiprocessing) or main2.py (with multiprocessing)
+   * image_split.py
+   * polar_transform.py
 
 ### Executing program
 
-* How to run the program
-* Step-by-step bullets
+* Run either of the main programs with the following parameters:
+  * The path to the .raw file containing the original 80 frames
+  * The scale factor, an integer value that impacts how high-quality the resulting image is
+       * A SF of around 10 will have a good amount of noise but the images will be outputted within 2 minutes
+       * A SF in the 25-30 will have significantly less noise, even none but producing the images will take significantly longer (closer to 10 minutes)
+
+e.g.
 ```
-code blocks for commands
+python3 main2 '/Users/username/folder/original_image.raw' 30
 ```
 
 ## Help
