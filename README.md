@@ -11,8 +11,9 @@ As well as this, the original image and therefore the individual frames were not
 
 ### Dependencies
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
+* [numpy](https://numpy.org) (used for converting image to array and manipulating)
+* [OpenCV/ cV2](https://pypi.org/project/opencv-python/) (used for interpolation)
+* [multiprocessing](https://docs.python.org/3/library/multiprocessing.html)
 
 ### Installing
 
