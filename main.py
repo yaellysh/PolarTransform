@@ -3,8 +3,8 @@ from image_split import *
 import time
 
 
-SCALE_FACTOR = 20
-IMAGE_PATH = '/Users/yaellyshkow/Desacc/polar_transformation/frame_1.1.raw'
+SCALE_FACTOR = 10
+IMAGE_PATH = '/Users/yaellyshkow/Desacc/polar_transformation/PolarTransform/frame_1.1.raw'
 
 def main():
     height = 3840

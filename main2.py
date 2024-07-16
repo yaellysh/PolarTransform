@@ -4,15 +4,12 @@ import multiprocessing
 import time
 
 
-SCALE_FACTOR = 30
-IMAGE_PATH = '/Users/yaellyshkow/Desacc/polar_transformation/PolarTransform/frame_1.1.raw'
-
-def main():
+def main(image_path: str = '/Users/yaellyshkow/Desacc/polar_transformation/PolarTransform/frame_1.1.raw', scale_factor: int = 30):
     height = 3840
     width = 416
 
     # Read the raw file
-    with open(IMAGE_PATH, 'rb') as file:
+    with open(image_path, 'rb') as file:
         raw_data = np.fromfile(file, dtype=np.uint8)[:-480]
         
     # Reshape the data into the correct dimensions
@@ -24,7 +21,7 @@ def main():
 
     processes = []
     for count in range(0, 80, 10):
-        processes.append(multiprocessing.Process(target=polar_transform_processer, args=(count, SCALE_FACTOR, split_images[count: count+10])))
+        processes.append(multiprocessing.Process(target=polar_transform_processer, args=(count, scale_factor, split_images[count: count+10])))
 
     for process in processes:
         process.start()

@@ -23,7 +23,7 @@ def polar_transform(scale_factor: int, image: np.ndarray) -> np.ndarray:
 
     # Define the angular extent of the sector (covering the whole canvas)
     # sector_angle = np.pi / 3 # 90 degrees
-    sector_angle = (np.pi * 7) / 24
+    sector_angle = (np.pi * 4) / 9
 
     # Map each pixel from the original image to the sector scan shape
     for i in range(height):
