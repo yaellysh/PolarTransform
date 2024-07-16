@@ -1,3 +1,6 @@
+# https://pydicom.github.io/pydicom/stable/auto_examples/input_output/plot_write_dicom.html: code for creating new empty dicom file
+# https://github.com/amine0110/convert-images-from-jpr-or-png-into-dicom/blob/main/jpt_into_dicom.py: code for adding image to existing dicom file
+
 import datetime
 import tempfile
 import numpy as np
