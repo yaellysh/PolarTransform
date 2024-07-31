@@ -71,8 +71,8 @@ def combine_png_files(png_dir):
 
 def main():
     # Specify the directory containing PNG files
-    png_dir = "/Users/yaellyshkow/Desacc/polar_transformation/PolarTransform/transformed_images"
-    output_im = "/Users/yaellyshkow/Desktop/final.dcm"
+    png_dir = "/Users/yaellyshkow/Desacc/polar_transformation/PolarTransform/transformed_images_2"
+    output_im = "/Users/yaellyshkow/Desktop/final_2.dcm"
 
     # Combine PNG files into a stacked volume
     stacked_volume = combine_png_files(png_dir)

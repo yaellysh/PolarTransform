@@ -73,6 +73,7 @@ def update_dataset_with_image(ds, image_path):
     ds[(0x7fe0, 0x0010)].VR = 'OB'
     return ds
 
+
 def main():
     suffix = '.dcm'
     filename_little_endian = tempfile.NamedTemporaryFile(suffix=suffix).name
@@ -87,12 +88,14 @@ def main():
     save_as_big_little_endian("little", ds, filename_little_endian)
     save_as_big_little_endian("big", ds, filename_big_endian)
 
-    image_path = "/Users/yaellyshkow/Desacc/polar_transformation/PolarTransform/transformed_images/polar_image_0.png"
-    ds = update_dataset_with_image(ds, image_path)
+    for i in range(80):
+        image_path = f"/Users/yaellyshkow/Desacc/polar_transformation/PolarTransform/transformed_images/polar_image_{i}.png"
+        ds = update_dataset_with_image(ds, image_path)
 
-    output_filename = '/Users/yaellyshkow/Desktop/result_gray.dcm'
-    ds.save_as(output_filename)
-    print(f"Final DICOM file saved as {output_filename}")
+        output_filename = f'/Users/yaellyshkow/Desacc/polar_transformation/PolarTransform/dicom_files/result_{i}.dcm'
+        ds.save_as(output_filename)
+
+    # seq_to_multi()
 
 if __name__ == "__main__":
     main()

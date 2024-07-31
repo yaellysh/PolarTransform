@@ -51,9 +51,9 @@ def polar_transform_processer(count: int, scale_factor: int, images: list[np.nda
     for image in images:
         polar_image = polar_transform(scale_factor, image)
         if count < 10:
-            cv2.imwrite(f'transformed_images/polar_image_0{count}.png', polar_image)    # Save the output image
+            cv2.imwrite(f'transformed_images_2/polar_image_0{count}.png', polar_image)    # Save the output image
         else:
-            cv2.imwrite(f'transformed_images/polar_image_{count}.png', polar_image)    # Save the output image
+            cv2.imwrite(f'transformed_images_2/polar_image_{count}.png', polar_image)    # Save the output image
         count += 1
 
     return None

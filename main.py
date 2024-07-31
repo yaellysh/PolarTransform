@@ -4,16 +4,18 @@ import multiprocessing
 import time
 
 
-def main(image_path: str = '/Users/yaellyshkow/Desacc/polar_transformation/PolarTransform/frame_1.1.raw', scale_factor: int = 30):
+def main(image_path: str = '/Users/yaellyshkow/Desacc/polar_transformation/PolarTransform/frame_2.1.raw', scale_factor: int = 30):
     height = 3840
     width = 416
 
     # Read the raw file
     with open(image_path, 'rb') as file:
-        raw_data = np.fromfile(file, dtype=np.uint8)[:-480]
-        
+        raw_data = np.fromfile(file, dtype=np.uint8)
+    
+    raw_size = raw_data.shape[0]
+
     # Reshape the data into the correct dimensions
-    input_image = raw_data.reshape((height, width)) 
+    input_image = raw_data[:height*width-raw_size].reshape((height, width)) 
 
     split_images = image_split(input_image)
 
