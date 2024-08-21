@@ -1,7 +1,7 @@
 import numpy as np
 from PIL import Image
 import os
-from pydicom.dataset import FileDataset, FileMetaDataset
+from pydicom.dataset import FileDataset, FileMetaDataset, Dataset
 from pydicom.uid import generate_uid, ExplicitVRLittleEndian, MultiFrameTrueColorSecondaryCaptureImageStorage
 from datetime import datetime
 
@@ -11,7 +11,6 @@ def create_dicom_dataset(stacked_volume: np.ndarray, output_im: str):
 
     # Create a new DICOM dataset
     file_metadata = FileMetaDataset()
-    # file_metadata.MediaStorageSOPClassUID = generate_uid()
     file_metadata.MediaStorageSOPClassUID = MultiFrameTrueColorSecondaryCaptureImageStorage
     file_metadata.MediaStorageSOPInstanceUID = generate_uid()
     file_metadata.ImplementationClassUID = generate_uid()
@@ -32,12 +31,14 @@ def create_dicom_dataset(stacked_volume: np.ndarray, output_im: str):
     new_dicom.StudyTime = datetime.now().strftime('%H%M%S')
     new_dicom.PixelSpacing = [1.0, 1.0]
     new_dicom.SliceThickness = 1.0
+    new_dicom.SpacingBetweenSlices = 1.0
+
+    # Set the Image Position (Patient) for the first slice
     new_dicom.ImagePositionPatient = [0.0, 0.0, 0.0]
     new_dicom.ImageOrientationPatient = [1.0, 0.0, 0.0, 0.0, 1.0, 0.0]
 
     # Set image-specific tags
-    # print(pixel_array.shape)
-    new_dicom.NumberOfFrames, new_dicom.Rows, new_dicom.Columns  = pixel_array.shape
+    new_dicom.NumberOfFrames, new_dicom.Rows, new_dicom.Columns = pixel_array.shape
     new_dicom.BitsAllocated = 16
     new_dicom.BitsStored = 16
     new_dicom.HighBit = 15
@@ -50,10 +51,22 @@ def create_dicom_dataset(stacked_volume: np.ndarray, output_im: str):
 
     new_dicom.SamplesPerPixel = 1
     new_dicom.PhotometricInterpretation = "MONOCHROME2"
-    new_dicom.BitsAllocated = 16
-    new_dicom.BitsStored = 8
-    new_dicom.HighBit = 7
-    new_dicom.PixelRepresentation = 0
+
+    # Add Per-frame Functional Groups Sequence
+    new_dicom.PerFrameFunctionalGroupsSequence = []
+    for i in range(new_dicom.NumberOfFrames):
+        frame = Dataset()
+        frame.PixelMeasuresSequence = [Dataset()]
+        frame.PixelMeasuresSequence[0].PixelSpacing = new_dicom.PixelSpacing
+        frame.PixelMeasuresSequence[0].SliceThickness = new_dicom.SliceThickness
+        
+        frame.PlanePositionSequence = [Dataset()]
+        frame.PlanePositionSequence[0].ImagePositionPatient = [0.0, 0.0, i * new_dicom.SpacingBetweenSlices]
+
+        frame.PlaneOrientationSequence = [Dataset()]
+        frame.PlaneOrientationSequence[0].ImageOrientationPatient = new_dicom.ImageOrientationPatient
+        
+        new_dicom.PerFrameFunctionalGroupsSequence.append(frame)
 
     return new_dicom
 
@@ -72,7 +85,7 @@ def combine_png_files(png_dir):
 def main():
     # Specify the directory containing PNG files
     png_dir = "/Users/yaellyshkow/Desacc/polar_transformation/PolarTransform/transformed_images_2"
-    output_im = "/Users/yaellyshkow/Desktop/final_2.dcm"
+    output_im = "/Users/yaellyshkow/Desktop/final_1.dcm"
 
     # Combine PNG files into a stacked volume
     stacked_volume = combine_png_files(png_dir)
